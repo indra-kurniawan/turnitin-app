@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PengajuanResource\Pages;
 use App\Filament\Resources\PengajuanResource\RelationManagers;
+use App\Models\Pembimbing;
 use App\Models\Pengajuan;
 use Filament\Tables\Actions\Action;
 use Filament\Forms;
@@ -42,8 +43,8 @@ class PengajuanResource extends Resource
         $iduser = auth('web')->id();
         $username = auth('web')->user()->name;
         $user = auth('web')->user();
-        $nim = auth('web')->user()->nim;
-        $prodi = auth('web')->user()->prodi;
+        $nim = auth('web')->user()->custom_fields['nim'];
+        $prodi = auth('web')->user()->custom_fields['prodi'];
 
         return $form->schema([
             // Nama mahasiswa otomatis dari user login

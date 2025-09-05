@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('judul_skripsi');
-            $table->string('pembimbing')->nullable();
             $table->string('file_skripsi'); // path di storage
             $table->enum('status', ['pending', 'diproses', 'selesai', 'ditolak'])->default('pending');
             $table->decimal('similarity_score', 5, 2)->nullable();

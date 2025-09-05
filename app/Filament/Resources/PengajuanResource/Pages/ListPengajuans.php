@@ -24,24 +24,35 @@ class ListPengajuans extends ListRecords
             Actions\CreateAction::make()
                 ->visible(fn() => $user->role === 'mahasiswa'),
 
-            PagesExportAction::make('export')
-                ->label('Export Data')
-                ->exports([
-                    ExcelExport::make()
-                        ->withColumns([
-                            Column::make('user.nim')->heading('NIM'),
-                            Column::make('user.name')->heading('Mahasiswa'),
-                            Column::make('prodi')->heading('Program Studi'),
-                            Column::make('judul_skripsi')->heading('Judul Skripsi'),
-                            Column::make('pembimbing.nama')->heading('Dosen Pembimbing'),
-                            Column::make('status')->heading('Status Pengajuan'),
-                            Column::make('jenis_naskah')->heading('Jenis Naskah'),
-                            Column::make('similarity_score')->heading('Similarity (%)'),
-                            Column::make('created_at')->heading('Tanggal Pengajuan'),
-                            Column::make('updated_at')->heading('Tanggal Selesai'),
-                        ])
+            Actions\Action::make('export')
+                ->label('Export Excel')
+                ->icon('heroicon-o-arrow-down-tray')
+                ->url(fn() => route('pengajuan.export'))
+                ->openUrlInNewTab(false),
 
-                ]),
+            // PagesExportAction::make('export')
+            //     ->label('Export Data')
+            //     ->exports([
+            //         ExcelExport::make()
+            //             ->withColumns([
+            //                 Column::make('nim')
+            //                     ->heading('NIM')
+            //                     ->formatStateUsing(function ($record) {
+            //                         dd($record); // tampil di browser, tidak akan download
+            //                         return $record->user->custom_fields['nim'] ?? '-';
+            //                     }),
+            //                 Column::make('user.name')->heading('Mahasiswa'),
+            //                 Column::make('prodi')->heading('Program Studi'),
+            //                 Column::make('judul_skripsi')->heading('Judul Skripsi'),
+            //                 Column::make('pembimbing')->heading('Dosen Pembimbing'),
+            //                 Column::make('status')->heading('Status Pengajuan'),
+            //                 Column::make('jenis_naskah')->heading('Jenis Naskah'),
+            //                 Column::make('similarity_score')->heading('Similarity (%)'),
+            //                 Column::make('created_at')->heading('Tanggal Pengajuan'),
+            //                 Column::make('updated_at')->heading('Tanggal Selesai'),
+            //             ])
+
+            //     ]),
         ];
     }
 }
