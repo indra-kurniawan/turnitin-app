@@ -43,8 +43,6 @@ class PengajuanResource extends Resource
         $iduser = auth('web')->id();
         $username = auth('web')->user()->name;
         $user = auth('web')->user();
-        $nim = auth('web')->user()->custom_fields['nim'];
-        $prodi = auth('web')->user()->custom_fields['prodi'];
 
         return $form->schema([
             // Nama mahasiswa otomatis dari user login
@@ -58,7 +56,6 @@ class PengajuanResource extends Resource
 
             TextInput::make('nim')
                 ->label('NIM Mahasiswa')
-                ->default($nim)
                 ->disabled(),
 
             // TextInput::make('prodi')
@@ -76,7 +73,6 @@ class PengajuanResource extends Resource
                     'bisnis digital' => 'Bisnis Digital',
                     'sains data' => 'Sains Data',
                 ])
-                ->default($prodi)
                 // ->disabled()
                 ->required(),
 
@@ -141,7 +137,10 @@ class PengajuanResource extends Resource
             })
             ->columns([
                 // TextColumn::make('id')->sortable(),
-                TextColumn::make('user.nim')->label('NIM')->searchable(),
+                TextColumn::make('user.custom_fields.nim')
+                    ->label('nim')
+                    ->formatStateUsing(fn($state, $record) => $record->user->custom_fields['nim'] ?? '-')
+                    ->searchable(),
                 TextColumn::make('user.name')->label('Mahasiswa')->searchable(),
                 TextColumn::make('prodi')->label('Program Studi')->sortable(),
                 TextColumn::make('pembimbing.nama')->label('Dosen Pembimbing'),
@@ -280,7 +279,9 @@ class PengajuanResource extends Resource
             ->schema([
                 Section::make('Informasi Mahasiswa')
                     ->schema([
-                        TextEntry::make('user.nim')->label('NIM'),
+                        TextEntry::make('user.custom_fields.nim')
+                            ->label('NIM')
+                            ->formatStateUsing(fn($state, $record) => $record->user->custom_fields['nim'] ?? '-'),
                         TextEntry::make('user.name')->label('Nama'),
                         TextEntry::make('prodi')->label('Program Studi'),
                         TextEntry::make('no_hp')->label('No. HP / WA'),
