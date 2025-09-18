@@ -42,6 +42,7 @@ class PengajuanResource extends Resource
         //** @var User $user */
         $iduser = auth('web')->id();
         $username = auth('web')->user()->name;
+        $nimmhs = auth('web')->user()->nim;
         $user = auth('web')->user();
 
         return $form->schema([
@@ -56,6 +57,7 @@ class PengajuanResource extends Resource
 
             TextInput::make('nim')
                 ->label('NIM Mahasiswa')
+                ->default($nimmhs)
                 ->disabled(),
 
             // TextInput::make('prodi')
@@ -64,7 +66,7 @@ class PengajuanResource extends Resource
             //     ->disabled(),
 
             Select::make('prodi')
-                ->label('Jenis Naskah')
+                ->label('Program Studi')
                 ->options([
                     'perbankan syariah' => 'Perbankan Syariah',
                     'ekonomi syariah' => 'Ekonomi Syariah',
